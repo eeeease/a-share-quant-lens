@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A-Share Quant Lens</title>
+    <meta
+      name="description"
+      content="面向普通投资者的 A 股量化可视化工具原型，展示指数、行业、因子和策略信号。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">ZJU Student Open Research Prototype</p>
+          <h1>A-Share Quant Lens</h1>
+        </div>
+        <div class="toolbar" aria-label="market controls">
+          <div class="segments" role="tablist" aria-label="market view">
+            <button class="segment active" data-market="all" type="button">全市场</button>
+            <button class="segment" data-market="core" type="button">核心指数</button>
+            <button class="segment" data-market="growth" type="button">成长风格</button>
+          </div>
+          <button class="icon-button" id="refreshButton" type="button" title="刷新模拟行情" aria-label="刷新模拟行情">
+            ↻
+          </button>
+        </div>
+      </header>
+
+      <section class="metrics" aria-label="market summary">
+        <article>
+          <span>沪深 300</span>
+          <strong id="metricHs300">3928.44</strong>
+          <em class="up">+0.84%</em>
+        </article>
+        <article>
+          <span>中证 500</span>
+          <strong id="metricCsi500">5831.20</strong>
+          <em class="down">-0.21%</em>
+        </article>
+        <article>
+          <span>北向资金</span>
+          <strong id="metricNorthbound">+32.6 亿</strong>
+          <em class="up">连续 3 日净流入</em>
+        </article>
+        <article>
+          <span>量化拥挤度</span>
+          <strong id="metricCrowding">41</strong>
+          <em>中性偏低</em>
+        </article>
+      </section>
+
+      <section class="workspace">
+        <aside class="panel filters" aria-label="factor settings">
+          <div class="panel-heading">
+            <h2>因子筛选</h2>
+            <span id="universeLabel">全市场</span>
+          </div>
+          <label class="field">
+            <span>风险偏好</span>
+            <input id="riskSlider" type="range" min="1" max="10" value="5" />
+          </label>
+          <label class="toggle">
+            <input id="northboundToggle" type="checkbox" checked />
+            <span>叠加北向资金</span>
+          </label>
+          <label class="toggle">
+            <input id="aiToggle" type="checkbox" checked />
+            <span>生成自然语言解释</span>
+          </label>
+          <div class="factor-list" aria-label="factor weights">
+            <button class="factor active" type="button" data-factor="momentum">
+              <span>动量</span><strong>28%</strong>
+            </button>
+            <button class="factor" type="button" data-factor="value">
+              <span>估值</span><strong>22%</strong>
+            </button>
+            <button class="factor" type="button" data-factor="quality">
+              <span>质量</span><strong>19%</strong>
+            </button>
+            <button class="factor" type="button" data-factor="liquidity">
+              <span>流动性</span><strong>17%</strong>
+            </button>
+          </div>
+        </aside>
+
+        <section class="panel chart-panel" aria-label="index chart">
+          <div class="panel-heading">
+            <h2>指数与信号</h2>
+            <div class="legend">
+              <span><i class="line price"></i>价格</span>
+              <span><i class="line signal"></i>信号</span>
+            </div>
+          </div>
+          <canvas id="mainChart" width="980" height="390" aria-label="A 股指数趋势图"></canvas>
+          <div class="callout" id="insightText">
+            模型偏好高质量成长与低拥挤动量组合，当前建议降低单一行业暴露。
+          </div>
+        </section>
+
+        <section class="panel heatmap-panel" aria-label="sector heatmap">
+          <div class="panel-heading">
+            <h2>行业热力</h2>
+            <span>近 20 日强弱</span>
+          </div>
+          <div class="heatmap" id="heatmap"></div>
+        </section>
+
+        <section class="panel table-panel" aria-label="watchlist">
+          <div class="panel-heading">
+            <h2>样例股票池</h2>
+            <span>T+1 研究信号</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>证券</th>
+                <th>行业</th>
+                <th>综合分</th>
+                <th>风险</th>
+              </tr>
+            </thead>
+            <tbody id="watchlist"></tbody>
+          </table>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
